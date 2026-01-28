@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-[Authorize]
+
 [Route("api/[controller]")]
 [ApiController]
 public class HaberlerController : ControllerBase
