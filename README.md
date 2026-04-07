@@ -1,80 +1,28 @@
-# 📰 AINewsEngine
+# 📰 Haber Portalı - Akıllı Backend API
 
 ## 🚀 Proje Amacı
-AINewsEngine, haberleri RSS kaynaklarından çekip yapay zeka ile yeniden yazabilen, kullanıcı ve rol tabanlı güvenlik sunan, hem panel (web) hem de mobil uygulama ile kullanılabilen modern bir haber motorudur.
+Haber toplama, yapay zeka ile içerik üretim ve veri yönetim süreçlerini otomatize eden kapsamlı bir API çözümüdür. Proje, sadece veri sunmakla kalmaz, aynı zamanda veritabanı seviyesinde akıllı temizlik ve güvenlik protokollerini işletir.
 
----
-
-## ✨ Temel Özellikler
-- 🔄 **RSS ile haber çekme** & LLM (Yapay Zeka) ile yeniden yazma
-- 👤 **Kullanıcı ve rol yönetimi** (Admin, Moderator, User)
-- 🔐 **JWT tabanlı kimlik doğrulama**
-- 🛡️ **Rol bazlı endpoint koruması** (Admin/Moderator işlemleri)
-- 🧪 **Swagger/OpenAPI ile kolay test**
-- 🗄️ **SQLite veritabanı**
-- 🖥️ **Angular tabanlı yönetim paneli** (ayrı dizinde)
-
----
+## ✨ Temel Özellikler & İş Mantığı
+* **🤖 AI & RSS Integration:** RSS kaynaklarından çekilen haberlerin LLM (Yapay Zeka) modelleri ile otomatik olarak yeniden yazılması.
+* **🛡️ Onay Mekanizması:** Kaydedilen her içerik `OnayDurumu: 0` olarak başlar. Kalite kontrolü sonrası editör tarafından yayına alınır.
+* **🧹 Akıllı Veri Temizliği (Smart Cleaning):** Çekilen haberlerde içerik boşluğu (Null) veya veri bozulması tespit edildiğinde, sistem bu kayıtları veritabanından otomatik olarak temizler.
+* **🔐 JWT & Role Management:** Microsoft Identity ile Admin, Moderator ve User rolleri üzerinden tam kapsamlı yetkilendirme.
+* **📑 Swagger/OpenAPI:** Tüm içerik operasyonlarının (Ekle/Sil/Onayla) görsel ve hızlı bir şekilde test edilebildiği dökümantasyon arayüzü.
 
 ## 🛠️ Kullanılan Teknolojiler
-- ⚙️ .NET 8 (ASP.NET Core Web API)
-- 🗃️ Entity Framework Core (SQLite)
-- 👥 Microsoft.AspNetCore.Identity
-- 🔑 JWT (JSON Web Token)
-- 📑 Swashbuckle (Swagger UI)
-- 🅰️ Angular (Panel için, ayrı dizinde)
+* **⚙️ .NET 8** (ASP.NET Core Web API)
+* **🗃️ Entity Framework Core** (SQLite Provider)
+* **🔑 Microsoft.AspNetCore.Identity & JWT**
+* **📑 Swashbuckle / Swagger**
 
----
+## 🧑‍💻 Kullanım Rehberi (Swagger ile Yönetim)
+1. `/api/Auth/login` endpoint'i üzerinden Admin bilgilerinizle giriş yapın.
+2. Dönen **JWT Token**'ı kopyalayın.
+3. Sağ üstteki **Authorize** butonuna tıklayıp `Bearer <token>` yazarak giriş yapın.
+4. Artık korumalı olan haber onaylama, kategori silme veya RSS tetikleme işlemlerini gerçekleştirebilirsiniz.
 
-## ⚡ Kurulum
-1. **Projeyi klonlayın:**
-   ```bash
-   git clone <repo-url>
-   cd AINewsEngine/AINewsEngine
-   ```
-2. **Bağımlılıkları yükleyin:**
-   ```bash
-   dotnet restore
-   ```
-3. **Veritabanını oluşturun ve migrate edin:**
-   ```bash
-   dotnet ef database update
-   ```
-4. **Projeyi başlatın:**
-   ```bash
-   dotnet run
-   ```
-   Uygulama varsayılan olarak [`http://localhost:5175`](http://localhost:5175) (veya launchSettings.json'daki port) üzerinden çalışır.
-
----
-
-## 🧑‍💻 Kullanım
-### 🧪 Swagger ile Test
-1. Tarayıcıda [`http://localhost:5175/swagger`](http://localhost:5175/swagger) adresine gidin.
-2. ➕ Kayıt olmak için `/api/Auth/register`, giriş yapmak için `/api/Auth/login` endpointlerini kullanın.
-3. 🔑 Giriş yaptıktan sonra dönen JWT token'ı kopyalayın.
-4. 🛡️ Swagger arayüzünde sağ üstteki **Authorize** (kilit) butonuna tıklayın ve `Bearer <token>` formatında token'ı girin.
-5. 🚦 Artık korumalı endpointleri (ör. haber ekleme, silme, kategori ekleme, RSS çekme) test edebilirsiniz.
-
-### 🛡️ Rol Bazlı Güvenlik
-- 👀 **User** rolü: Sadece haberleri okuyabilir.
-- 🛠️ **Admin/Moderator** rolleri: Haber ekleyebilir, güncelleyebilir, silebilir, onaylayabilir, kategori ve RSS işlemleri yapabilir.
-- ❌ Korumalı endpointlere User rolüyle erişmek isterseniz **403 Forbidden** hatası alırsınız.
-
----
-
-## ⚙️ Ortam Değişkenleri ve Ayarlar
-- Veritabanı ve JWT ayarları `appsettings.json` dosyasından veya environment variable'lardan alınır.
-- 🛡️ Admin kullanıcısı ilk çalıştırmada otomatik oluşturulur (kullanıcı adı/şifre: `Admin123`/`Admin123` veya user-secrets ile).
-
----
-
-## 💡 Geliştirici Notları
-- Kodda kritik endpointler `[Authorize(Roles = "Admin,Moderator")]` ile korunmuştur.
-- Swagger ile test için önce login olup token'ı **Authorize** ile girmeniz gerekir.
-- Rate limiting, CORS ve HTTPS gibi ek güvenlik önlemleri kodda örneklenmiştir.
-
----
-
-## 📄 Lisans
-MIT
+## ⚙️ Kurulum
+1. `dotnet restore`
+2. `dotnet ef database update`
+3. `dotnet run`
